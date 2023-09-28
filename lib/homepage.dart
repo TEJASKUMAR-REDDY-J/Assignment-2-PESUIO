@@ -1,36 +1,61 @@
-// ignore: unused_import
-import 'package:bmi_calc1/main.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:math';
+import 'resultpage.dart'; // Import your resultpage widget
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
   @override
-  State<Homepage> createState() => HomepageState();
+  State<Homepage> createState() => _HomepageState();
 }
 
-class HomepageState extends State<Homepage> {
+class _HomepageState extends State<Homepage> {
   final TextEditingController _weight = TextEditingController();
-// Removed 'final' keyword
   final TextEditingController _height = TextEditingController();
-// Removed 'final' keyword
   double finalBmi = 0;
 
   void bmiCalculator() {
-    int var1 = int.parse(_weight.text);
-    int var2 = int.parse(_height.text);
-    setState(() {
-      finalBmi = (var1 / pow((var2 / 100), 2));
-    });
-    
+    int var1 = int.tryParse(_weight.text) ?? 0;
+    int var2 = int.tryParse(_height.text) ?? 0;
+
+    if (var1 > 0 && var2 > 0) {
+      setState(() {
+        finalBmi = (var1 / pow((var2 / 100), 2));
+      });
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultPage(finalBmi: finalBmi),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Invalid Input"),
+            content: const Text("Please enter valid weight and height values."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 38, 76, 202),
+      backgroundColor: const Color.fromARGB(255, 6, 215, 230),
       appBar: AppBar(
         title: Text(
           'BMI',
@@ -96,7 +121,6 @@ class HomepageState extends State<Homepage> {
             ),
             ElevatedButton(
               onPressed: () => bmiCalculator(),
-              // Changed _computeBMI() to bmiCalculator()
               child: Padding(
                 padding: const EdgeInsets.only(
                   left: 12,
