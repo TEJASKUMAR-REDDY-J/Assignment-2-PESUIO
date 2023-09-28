@@ -1,27 +1,43 @@
 import 'package:flutter/material.dart';
-// ignore: unused_import
 import 'package:google_fonts/google_fonts.dart';
-import 'homepage.dart'; // Import your homepage widget
 // ignore: unused_import
-import 'resultpage.dart';
+import 'dart:math';
 
-void main() {
-  runApp(const MyApp());
-}
+class ResultPage extends StatelessWidget {
+  final double finalBmi;
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const ResultPage({super.key, required this.finalBmi});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BMI',
-      theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 7, 54, 124)),
-        useMaterial3: true,
+    return Scaffold(
+      backgroundColor: const Color(0xffb2d8d8),
+      appBar: AppBar(
+        backgroundColor: const Color(0xff008080),
+        title: Text(
+          "BMI Result",
+          style: GoogleFonts.poppins(
+            textStyle: const TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
-      home: const Homepage(),
-    );
+      body: Center(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(
+            "Your BMI is",
+            style: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+            )
+            ]
+            )
+            )
+            );
   }
-}
+  }
